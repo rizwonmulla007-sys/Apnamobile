@@ -1,62 +1,74 @@
-return(
-<div className="min-h-screen bg-[#060606] text-white">
-<header className="sticky top-0 z-50 bg-black border-b-[3px] border-[#00A651]">
-<div className="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
-<div><h1 className="text-[30px] font-black leading-none">Apna<span className="text-[#00A651]">Mobile</span><span className="w-2 h-2 bg-red-600 inline-block rounded-full ml-1 animate-pulse"></span></h1><p className="text-[10px] tracking-[0.2em] text-gray-400 font-bold">SHOP #12 STAR CITY MALL SADDAR</p></div>
-<div className="flex bg-[#1A1A1A] p-1 rounded-full border border-white/10">
-<button onClick={()=>setView('customer')} className={`px-5 py-2 rounded-full text-xs font-black ${view==='customer'?'bg-[#00A651] text-black':'text-gray-400'}`}>CUSTOMER VIEW</button>
-<button onClick={()=>setView('seller')} className={`px-5 py-2 rounded-full text-xs font-black ${view==='seller'?'bg-[#00A651] text-black':'text-gray-400'}`}>SELLER VIEW</button>
-</div></div>
-<div className="bg-[#00A651] text-black overflow-hidden whitespace-nowrap py-1.5"><div className="flex gap-8 font-black text-xs animate-pulse"><span>🔥 Ab Mobile Lena Or Bhi Asan!</span><span>📱 Ghar Bethy Checking Bhi?</span><span>🛡️ Warranty Bhi?</span><span>🤝 Bargain Bhi?</span><span>💰 Sasta Mobile? Market Jany Ki Ab Koi Zarurat Nahi!</span></div></div>
-</header>
+"use client";
+import { useState } from "react";
 
-{view==='customer'?(
-<div className="max-w-7xl mx-auto lg:flex">
-<aside className="lg:w-[320px] p-4 bg-[#0F0F0F] border-r border-white/5">
-<h2 className="font-black text-[#00A651] text-xl border-l-4 border-red-600 pl-3">BRANDS</h2>
-<div className="grid grid-cols-2 lg:grid-cols-1 gap-2 mt-4">{Object.keys(brands).map(b=><button key={b} onClick={()=>{setBrandFilter(b); setModelFilter(null)}} className={`p-4 rounded-2xl font-black text-left flex justify-between border-2 ${brandFilter===b?'bg-[#00A651] text-black border-[#00A651]':'bg-white text-black border-white'}`}><span>{b}</span><span className="text-[10px] bg-black/10 px-2 py-1 rounded-full">{brands[b].models.length}</span></button>)}</div>
-{brandFilter&&<div className="mt-6 bg-black border border-[#00A651]/40 rounded-2xl p-4"><div className="flex justify-between"><p className="font-black text-sm">{brandFilter} Models</p><button onClick={()=>setBrandFilter(null)} className="text-red-500 text-xs font-bold">X</button></div><div className="flex flex-wrap gap-2 mt-3">{brands[brandFilter].models.map((m:string)=><button key={m} onClick={()=>setModelFilter(m)} className={`px-4 py-2 rounded-full text-xs font-bold border ${modelFilter===m?'bg-[#00A651] text-black':'bg-[#1A1A1A] border-white/10'}`}>{brandFilter} {m}</button>)}</div><div className="mt-3"><p className="text-[11px] font-black text-[#00A651]">VARIANTS: Mini, Pro, Pro Max, Air, Duo, Plus, Standard</p><p className="text-[10px] text-gray-500 mt-1">Storage 64/128/256/512 | RAM 4/8/12 | Battery 80%+ | PTA/Non-PTA/JV</p></div></div>}
-</aside>
+export default function Page() {
+  const [view, setView] = useState("customer");
+  const [brandFilter, setBrandFilter] = useState("");
+  const [selected, setSelected] = useState<any>(null);
+  const [showFee, setShowFee] = useState(false);
 
-<main className="flex-1 p-4">
-{mobiles.length===0?(
-<div>
-<div className="border-2 border-dashed border-white/10 rounded-[28px] p-6 text-center bg-[#0D0D0D]"><div className="text-6xl">📱</div><h3 className="mt-3 font-black text-xl">No phones available right now</h3><p className="text-gray-500 text-sm">Seller post karega to yahan ayega</p></div>
+  const mobiles = [
+    { id: 1, name: "iPhone 15 Pro", brand: "Apple", price: "450,000" },
+    { id: 2, name: "Samsung S24 Ultra", brand: "Samsung", price: "380,000" },
+    { id: 3, name: "Infinix Hot 40", brand: "Infinix", price: "45,000" },
+  ];
 
-{/* SCROLL WALA SS SECTION - YE WALA MANG RAHE THE */}
-<div className="mt-8">
-<h2 className="font-black text-3xl text-center leading-tight">Why Apna Mobile is Better?<br/><span className="text-[#00A651]">Scroll Karo - Dekho!</span></h2>
+  return (
+    <div className="min-h-screen bg-[#060606] text-white">
+      <header className="sticky top-0 z-50 bg-black border-b border-white/10">
+        <div className="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
+          <div><h1 className="text-[30px] font-black leading-none text-[#00A651]">APNA<span className="text-white">MOBILE</span></h1></div>
+          <div className="flex bg-[#1A1A1A] p-1 rounded-full">
+            <button onClick={() => setView('customer')} className={`px-4 py-1.5 rounded-full text-sm font-bold ${view === 'customer'? 'bg-[#00A651] text-black' : 'text-white/60'}`}>Customer</button>
+            <button onClick={() => setView('seller')} className={`px-4 py-1.5 rounded-full text-sm font-bold ${view === 'seller'? 'bg-[#00A651] text-black' : 'text-white/60'}`}>Seller</button>
+          </div>
+        </div>
+        <div className="bg-[#00A651] text-black overflow-hidden py-1 text-xs font-bold text-center">🔥 0% Fee - Sell Your Phone Free! 🔥</div>
+      </header>
 
-{/* YE SCROLL KARTY KARTY AYEGA */}
-<div className="mt-6 grid md:grid-cols-2 gap-4">
-<div className="bg-white text-black rounded-[22px] p-5 border-l-[6px] border-[#00A651] shadow-xl transform hover:scale-105 transition duration-500"><p className="text-[10px] font-black tracking-widest text-[#00A651]">LIVE BARGAIN DEMO - SCROLL EFFECT</p><div className="mt-3 space-y-3 text-sm font-bold"><p className="bg-black text-white p-3 rounded-xl"><span className="bg-white text-black px-2 py-1 rounded-full text-xs mr-2">Customer</span>Usman Bhai kya final honge? 15k me?</p><p className="bg-[#00A651]/10 p-3 rounded-xl border border-[#00A651]"><span className="bg-[#00A651] text-black px-2 py-1 rounded-full text-xs mr-2">Seller</span>Bhai apke liye final 20k, 19.5k last!</p></div><div className="flex gap-2 mt-4"><span className="px-4 py-2 bg-gray-100 rounded-full text-xs font-black">15k</span><span className="px-4 py-2 bg-gray-100 rounded-full text-xs font-black">16k</span><span className="px-4 py-2 bg-gray-100 rounded-full text-xs font-black">18k</span><span className="px-4 py-2 bg-[#00A651] text-black font-black rounded-full text-xs">20k ✅ Final</span></div><div className="mt-3 flex gap-1"><span className="text-yellow-500">★★★★★</span><span className="text-xs font-bold">5 Star Rating</span></div></div>
+      {view === 'customer'? (
+        <div className="max-w-7xl mx-auto lg:flex">
+          <aside className="lg:w-[320px] p-4 bg-[#0F0F0F] border-r border-white/5">
+            <h2 className="font-black text-[#00A651] text-xl mb-4">Filters</h2>
+            <div className="grid grid-cols-2 lg:grid-cols-1 gap-2">
+              <button onClick={() => setBrandFilter("")} className="bg-white text-black p-3 rounded-xl font-bold">All Brands</button>
+              <button onClick={() => setBrandFilter("Apple")} className="bg-zinc-800 p-3 rounded-xl">Apple</button>
+              <button onClick={() => setBrandFilter("Samsung")} className="bg-zinc-800 p-3 rounded-xl">Samsung</button>
+            </div>
+            {brandFilter && <div className="mt-6 bg-black border border-white/10 p-3 rounded-xl">Filter: {brandFilter} <button onClick={() => setBrandFilter("")} className="text-[#00A651] ml-2">Clear</button></div>}
+          </aside>
 
-<div className="bg-[#00A651] text-black rounded-[22px] p-5 transform hover:scale-105 transition duration-500"><h4 className="font-black text-lg">Pakistani Vibe 🔥</h4><p className="text-sm mt-2 font-bold">Warranty Bhi? Checking Bhi? Return Bhi? Bargain Bhi?</p><p className="text-xs mt-2">Seller se direct rabta - Inside App Only! Number hidden!</p></div>
-</div>
+          <main className="flex-1 p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {mobiles.filter(m =>!brandFilter || m.brand === brandFilter).map((m) => (
+                <div key={m.id} onClick={() => setSelected(m)} className="bg-[#151515] border border-white/10 p-5 rounded-2xl cursor-pointer">
+                  <h3 className="font-black text-lg">{m.name}</h3>
+                  <p className="text-white/50 text-sm">{m.brand}</p>
+                  <p className="text-[#00A651] font-black mt-2">Rs. {m.price}</p>
+                </div>
+              ))}
+            </div>
 
-{/* POSTERS JO SCROLL PE AYENGE */}
-<div className="mt-8 grid grid-cols-2 md:grid-cols-3 gap-3">
-{[
-{title:"Warranty Bhi?",desc:"7 din warranty, kharab nikle to wapas!",icon:"🛡️",bg:"bg-[#00A651] text-black"},
-{title:"Ghar Bethy Checking Bhi?",desc:"Video call pe mobile check karo!",icon:"📹",bg:"bg-white text-black"},
-{title:"Seller Se Direct Rabta?",desc:"Inside App Only - Number hidden!",icon:"💬",bg:"bg-[#E10600] text-white"},
-{title:"Bargain Bhi?",desc:"15k 16k 18k offer lagao!",icon:"🤝",bg:"bg-[#00A651] text-black"},
-{title:"Return Bhi?",desc:"Samajh na aaye to 7 din me return!",icon:"↩️",bg:"bg-white text-black"},
-{title:"Sasta Mobile?",desc:"Market jany ki ab koi zarurat nahi!",icon:"💰",bg:"bg-[#E10600] text-white"},
-].map((p,i)=><div key={p.title} className={`${p.bg} rounded-[20px] p-4 border-2 border-black transform hover:-translate-y-2 transition duration-300`} style={{animationDelay:`${i*100}ms`}}><span className="text-3xl">{p.icon}</span><h4 className="font-black mt-2 text-sm">{p.title}</h4><p className="text-[11px] mt-1 opacity-80">{p.desc}</p></div>)}
-</div>
-</div>
-</div>
-):(
-<div className="grid grid-cols-2 md:grid-cols-3 gap-4">{mobiles.map((m:any)=><div key={m.id} className="bg-white text-black rounded-[22px] overflow-hidden border-2 hover:border-[#00A651]"><img src={m.photo} className="h-48 w-full object-cover" /><div className="p-3"><h3 className="font-black text-sm">{m.brand} {m.model} {m.variant}</h3><p className="font-black text-xl text-[#00A651]">Rs {m.price}</p><p className="text-[10px] text-gray-400">Customer ko fee nazar nahi ayegi - Final Price</p><button onClick={()=>setSelected(m)} className="w-full mt-2 bg-black text-white py-2 rounded-xl text-xs font-black">DETAILS DEKHO →</button></div></div>)}</div>
-)}
-</main>
-</div>
-):(
-<div className="max-w-3xl mx-auto p-4"><div className="bg-[#101010] border-2 border-[#00A651]/30 rounded-[28px] p-6"><div className="flex justify-between"><div><h2 className="text-3xl font-black text-[#00A651]">SELLER PANEL</h2><p className="text-xs text-gray-400 font-bold">SHOP #12 STAR CITY MALL</p></div><div className="bg-red-600 text-white px-3 py-1 rounded-full text-[10px] font-black">JAZZCASH 03190853408</div></div><div className="grid grid-cols-2 gap-3 mt-6"><select value={form.brand} onChange={e=>setForm({...form,brand:e.target.value})} className="bg-black border border-white/10 p-3 rounded-xl">{Object.keys(brands).map(b=><option key={b}>{b}</option>)}</select><select value={form.model} onChange={e=>setForm({...form,model:e.target.value})} className="bg-black border border-white/10 p-3 rounded-xl">{brands[form.brand].models.map((m:string)=><option key={m}>{m}</option>)}</select><select value={form.variant} onChange={e=>setForm({...form,variant:e.target.value})} className="bg-black border border-white/10 p-3 rounded-xl">{brands[form.brand].variants.map((v:string)=><option key={v}>{v}</option>)}</select><input value={form.price} onChange={e=>setForm({...form,price:e.target.value})} placeholder="Price Rs 20000" className="bg-black border-2 border-[#00A651]/40 p-3 rounded-xl font-black" /><input value={form.photo} onChange={e=>setForm({...form,photo:e.target.value})} placeholder="Photo URL" className="col-span-2 bg-black border border-white/10 p-3 rounded-xl" /><input value={form.whatsapp} onChange={e=>setForm({...form,whatsapp:e.target.value})} placeholder="WhatsApp Hidden" className="col-span-2 bg-black border border-white/10 p-3 rounded-xl" /></div><div className="mt-6 bg-[#00A651]/10 border-2 border-[#00A651] rounded-2xl p-4"><p className="font-black text-[#00A651] text-sm">🔒 Apna Mobile Service Guarantee Fee Rs 1000 (ONLY SELLER SEES)</p><p className="text-xs mt-2">JazzCash: <b className="text-[#00A651]">03190853408</b> - Auto-split: {form.price?`Rs ${form.price} pe aapko ${parseInt(form.price)-1000} milega`:'Price likho'}</p><label className="flex gap-2 mt-3 text-xs bg-black p-3 rounded-xl"><input type="checkbox" checked={form.agree} onChange={e=>setForm({...form,agree:e.target.checked})} />I AGREE - {form.price?`${form.price} sale pe ${parseInt(form.price)-1000} mujhe, 1000 Admin ko JazzCash 03190853408`:'Fee samajh gaya'}</label></div><button onClick={handlePost} className="w-full mt-5 bg-[#00A651] text-black font-black py-4 rounded-2xl text-xl">POST KARO 🚀</button></div></div>
-)}
-{showFee&&<div className="fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-4"><div className="bg-white text-black rounded-[28px] p-7 w-full max-w-sm border-4 border-[#00A651]"><h2 className="font-black text-2xl">Pay Fee</h2><p className="text-sm mt-1 font-bold">JazzCash <span className="text-[#00A651]">03190853408</span></p><p className="text-xs text-gray-500">Apna Mobile Service Guarantee Fee</p><div className="mt-3 bg-black text-white p-3 rounded-xl text-xs"><p>Amount: <b className="text-[#00A651]">Rs 1000</b></p><p className="mt-1">Customer ko fee nazar nahi ayegi - Final Rs {form.price}</p><p className="mt-2 text-[10px] text-gray-400">Khud ba khud split: Admin 1000, Baqi aapko</p></div><input placeholder="Transaction ID" value={form.trx} onChange={e=>setForm({...form,trx:e.target.value})} className="w-full mt-4 border-2 border-black p-3 rounded-xl font-bold" /><div className="flex gap-2 mt-5"><button onClick={()=>setShowFee(false)} className="flex-1 bg-gray-200 py-3 rounded-xl font-black">CANCEL</button><button onClick={confirmFee} className="flex-1 bg-[#00A651] text-black py-3 rounded-xl font-black">I PAID ✅</button></div></div></div>}
-{selected&&<div className="fixed inset-0 bg-black/90 z-[100] p-3 overflow-auto"><div className="bg-[#0F0F0F] text-white max-w-2xl mx-auto rounded-[28px] overflow-hidden border-2 border-[#00A651]/30"><img src={selected.photo} className="h-72 w-full object-cover" /><div className="p-5"><h2 className="font-black text-xl">{selected.brand} {selected.model} {selected.variant}</h2><p className="text-3xl font-black text-[#00A651]">Rs {selected.price}</p><p className="text-[10px] text-gray-400">Final Price - No Fee For Customer | Auto-split: Seller Gets {parseInt(selected.price)-1000}, Admin 1000 (03190853408)</p><div className="mt-4"><p className="font-black text-[#00A651] text-xs">BARGAIN - Usman Bhai Style</p><div className="flex gap-2 mt-2">{[15000,16000,18000,19000,parseInt(selected.price)].map(v=><button key={v} onClick={()=>setOffer(v)} className={`px-4 py-2 rounded-full text-xs font-black ${offer===v?'bg-[#00A651] text-black':'bg-white text-black'}`}>Rs {v}</button>)}</div></div><div className="mt-4"><p className="font-black text-xs">5 Star Rating</p><div className="flex gap-1 mt-1">{[1,2,3,4,5].map(s=><button key={s} onClick={()=>setRating(s)} className={`text-2xl ${s<=rating?'text-yellow-400':'text-gray-600'}`}>★</button>)}</div></div><div className="mt-4 bg-black rounded-2xl border border-white/10 p-3"><p className="font-black text-xs">IN-APP CHAT - Number Hidden - Anti-Bypass ON</p><div className="h-32 overflow-auto mt-2 space-y-2 text-xs">{chat.map((c:any,i:number)=><div key={i} className={`${c.from==='system'?'bg-red-900/30 text-red-400':c.from==='customer'?'bg-white text-black ml-8':'bg-[#00A651] text-black mr-8'} p-2 rounded-xl`}><b>{c.from}:</b> {c.text}</div>)}</div><div className="flex gap-2 mt-2"><input value={msg} onChange={e=>setMsg(e.target.value)} placeholder="Message... number/location = auto-delete" className="flex-1 bg-[#1A1A1A] border border-white/10 p-2 rounded-xl text-xs" /><button onClick={handleSend} className="bg-[#00A651] text-black px-4 rounded-xl font-black text-xs">SEND</button></div></div><button onClick={()=>setSelected(null)} className="w-full mt-4 bg-white text-black py-3 rounded-xl font-black">CLOSE</button></div></div></div>}
-</div>
-);
+            <div className="mt-8">
+              <h2 className="font-black text-3xl text-center mb-6">Why ApnaMobile?</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="bg-[#111] p-6 rounded-2xl text-center">✅ No Fees</div>
+                <div className="bg-[#111] p-6 rounded-2xl text-center">✅ Verified Sellers</div>
+                <div className="bg-[#111] p-6 rounded-2xl text-center">✅ Karachi Delivery</div>
+              </div>
+            </div>
+
+          </main>
+        </div>
+      ) : (
+        <div className="max-w-3xl mx-auto p-6">
+          <h2 className="text-3xl font-black mb-4">Seller Panel</h2>
+          <div className="bg-[#151515] p-6 rounded-2xl border border-white/10">
+            <p>Yahan se apna mobile add kar sakte ho!</p>
+            <button className="mt-4 bg-[#00A651] text-black px-6 py-3 rounded-full font-bold">+ Add Mobile</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
